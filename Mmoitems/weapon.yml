@@ -7,5 +7,4 @@ SWORD_SURVIVAL_001:
     pve-damage: 10.0
     upgrade:
       reference: BLUE_GEM
-      max: 30
       template: weapon-default
