@@ -1,0 +1,4 @@
+CHANCE_ITEM:
+  base:
+    material: BRICK
+    unstackable: true
