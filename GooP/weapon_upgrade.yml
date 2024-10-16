@@ -1,0 +1,26 @@
+###########################################################################
+#
+#                     GooP Example Upgrade Item 
+#   Discord NN#7999 (ขออย่างเดียวอย่าลบคอมเม้นออกเลย)
+#   หากคุณต้องการกำหนดให้ช่อง อาวุธ หรือ ของที่ตีบวก ให้ใช้   
+#   /goop containers config masks ชื่อcontainer ช่องของไอเท็ม
+#   อย่าลืมไปตั้งค่าที่ GooP / อย่าลืมไปตั้งค่าที่ GooP onapply masks ถ้าจะกำหนดให้ใส่ไอเท็มได้เฉพาะ mmoitems type ที่กำหนด
+#
+#   ทุกๆจำนวนเลเวลตีบวกจะลด % สำเร็จลงทีละ 5
+#   
+###########################################################################
+
+# ชื่อcontainer
+newworld_weapon_upgrade:
+  NumberOfRows: 3
+  ContainerType: STATION
+  DisplayTitle: '&fExample Newworld'
+  Contents:
+  - CONFIRM 16||DISPLAY||v YELLOW_DYE 0||1||CMD2||HFGHIDE_ATTRIBUTES||NME<#99cc00>Confirm||COCgoop mythicmobs runSkillAs weapon_upgrade_confirm %player%||
+  - SLOT_ITEM 10||STORAGE||v YELLOW_DYE 0||1||CMD2||HFGHIDE_ATTRIBUTES||NME<#e6e6ff>Slot item||
+  - SLOT_STONE_UPGRADE 14||STORAGE||v YELLOW_DYE 0||1||CMD2||HFGHIDE_ATTRIBUTES||NME<#cc99ff>Amethyst||
+  
+  CommandOnOpen:
+  - goop mythicmobs RunSkillAs weapon_upgrade_start %player%
+  AllowInventoryDrag: true
+  ProvidedDragToInventory: true

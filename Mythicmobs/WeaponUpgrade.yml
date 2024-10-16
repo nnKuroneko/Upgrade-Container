@@ -1,0 +1,67 @@
+###########################################################################
+#
+#                     GooP Example Upgrade Item 
+#   Discord NN#7999 (ขออย่างเดียวอย่าลบคอมเม้นออกเลย)
+#   หากคุณต้องการกำหนดให้ช่อง อาวุธ หรือ ของที่ตีบวก ให้ใช้   
+#   /goop containers config masks ชื่อcontainer ช่องของไอเท็ม
+#   อย่าลืมไปตั้งค่าที่ GooP / อย่าลืมไปตั้งค่าที่ GooP onapply masks ถ้าจะกำหนดให้ใส่ไอเท็มได้เฉพาะ mmoitems type ที่กำหนด
+#
+#   ทุกๆจำนวนเลเวลตีบวกจะลด % สำเร็จลงทีละ 5
+#   
+###########################################################################
+
+#เก็บข้อมูล
+weapon_upgrade_start:
+  Skills:
+  - settargetscore{objective=upgrade_point;value=0} @Self # STEEL_INGOT
+  - settargetscore{objective=weapon_point;value=0} @Self # Weapon
+  - settargetscore{objective=level_point;value=0} @Self # Weapon Level
+  - settargetscore{objective=chance_point;value=100} @Self # Chance Upgrade
+
+weapon_upgrade_confirm:
+  Skills:
+  - command{c="goop testinventory <target.name> c<SLOT_STONE_UPGRADE> m MATERIAL STEEL_INGOT upgrade_point amount"} @self # ช่องใส่ MATERIAL
+  - command{c="goop testinventory <target.name> c<SLOT_ITEM> v diamond_hoe 0 weapon_point 0"} @self # ช่องใส่ Weapon
+  - command{c="goop mmoitems upgrade <target.name> c<SLOT_ITEM> read true level_point level"} # เก็บ Weapon Level
+  - settargetscore{objective=chance_point;value=(100 - (<caster.score.level_point> * 5))} @Self # คำนวนโอกาสสำเร็จ
+
+
+
+  # Debug
+  #- command{c="goop tell <target.name> <caster.score.level_point>"}
+  #- command{c="goop tell <target.name> <caster.score.chance_point>"}
+  - skill{s=weapon_upgrade_check} @self
+  - sound{s=ui.button.click;v=1;p=1} @Self 
+  
+# เช็คเงื่อนไข
+weapon_upgrade_check:
+  Conditions:
+    - score{objective=upgrade_point;v=<1} castinstead weapon_upgrade_checkitem # ถ้าไม่ได้ใส่ MATERIAL จะเข้าเงื่อนไขนี้
+    - score{objective=level_point;v=>19} castinstead weapon_upgrade_levelmax # Weapon Level คือ 20 จะ Upgrade ไม่ได้
+    - chance{chance=<caster.score.chance_point> / 100} castinstead weapon_upgrade_success # เข้าเงื่อนไข Upgrade สำเร็จ
+  Skills:
+    - skill{s=weapon_upgrade_failure} @self
+
+weapon_upgrade_success:
+  Skills:
+    - command{c="goop consumeitem <target.name> m MATERIAL STEEL_INGOT 1 c<SLOT_STONE_UPGRADE>"} @self
+    - command{c="goop mmoitems upgrade <target.name> c<SLOT_ITEM> +1 true"} @self
+    - command{c="broadcast Success"} @self
+    - sound{s=ui.cartography_table.take_result;v=1;p=1} @Self 
+
+weapon_upgrade_failure:
+  Skills:
+    - command{c="goop consumeitem <target.name> m MATERIAL STEEL_INGOT 1 c<SLOT_STONE_UPGRADE>"} @self
+    - command{c="goop mmoitems upgrade <target.name> c<SLOT_ITEM> -1 true"} @self
+    - command{c="broadcast Failure"} @self
+    - sound{s=block.anvil.break;v=1;p=1} @Self
+  
+weapon_upgrade_checkitem:
+  Skills:
+  - command{c="broadcast check item"} @self
+  - sound{s=ui.button.click;v=1;p=1} @Self 
+
+weapon_upgrade_levelmax:
+  Skills:
+  - command{c="broadcast levelmax"} @self
+  - sound{s=ui.button.click;v=1;p=1} @Self 

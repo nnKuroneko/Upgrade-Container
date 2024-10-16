@@ -1,0 +1,11 @@
+SWORD_SURVIVAL_001:
+  base:
+    material: DIAMOND_SWORD
+    weapon-damage: 50.0
+    attack-damage: 10.0
+    name: '&5DDDDiamond &aSSSWORD •'
+    pve-damage: 10.0
+    upgrade:
+      reference: BLUE_GEM
+      max: 30
+      template: weapon-default
