@@ -1,14 +1,18 @@
-###########################################################################
+# ##########################################################################
 #
 #                     GooP Example Upgrade Item 
 #   Discord NN#7999 (ขออย่างเดียวอย่าลบคอมเม้นออกเลย)
+#   https://github.com/nnKuroneko/Upgrade-Container
 #   หากคุณต้องการกำหนดให้ช่อง อาวุธ หรือ ของที่ตีบวก ให้ใช้   
 #   /goop containers config masks ชื่อcontainer ช่องของไอเท็ม
 #   อย่าลืมไปตั้งค่าที่ GooP / อย่าลืมไปตั้งค่าที่ GooP onapply masks ถ้าจะกำหนดให้ใส่ไอเท็มได้เฉพาะ mmoitems type ที่กำหนด
 #
 #   ทุกๆจำนวนเลเวลตีบวกจะลด % สำเร็จลงทีละ 5
 #   
-###########################################################################
+# ##########################################################################
+
+# Ex. Command For mask slot
+# goop containers config masks newworld_weapon_upgrade 10 type SWORD
 
 # ชื่อcontainer
 newworld_weapon_upgrade:
@@ -16,9 +20,17 @@ newworld_weapon_upgrade:
   ContainerType: STATION
   DisplayTitle: '&fExample Newworld'
   Contents:
-  - CONFIRM 16||DISPLAY||v YELLOW_DYE 0||1||CMD2||HFGHIDE_ATTRIBUTES||NME<#99cc00>Confirm||COCgoop mythicmobs runSkillAs weapon_upgrade_confirm %player%||
-  - SLOT_ITEM 10||STORAGE||v YELLOW_DYE 0||1||CMD2||HFGHIDE_ATTRIBUTES||NME<#e6e6ff>Slot item||
-  - SLOT_STONE_UPGRADE 14||STORAGE||v YELLOW_DYE 0||1||CMD2||HFGHIDE_ATTRIBUTES||NME<#cc99ff>Amethyst||
+
+  - SLOT_ITEM 10||STORAGE||v BOWL 0||1||COTgoop mythicmobs runSkillAs setname_chance
+    %player%||COSgoop mythicmobs runSkillAs setname_chance %player%||NME§x§C§C§9§9§F§FWeapon item||CMD2||HFGHIDE_ATTRIBUTES||
+
+  - SLOT_CHANCE 12||STORAGE||v BOWL 0||1||COTgoop mythicmobs runSkillAs setname_chance
+    %player%||COSgoop mythicmobs runSkillAs setname_chance %player%||NME§x§C§C§9§9§F§FChance item||CMD2||HFGHIDE_ATTRIBUTES||
+
+  - SLOT_STONE_UPGRADE 14||STORAGE||v BOWL 0||1||NME§x§E§6§E§6§F§FUpgrade item||CMD2||HFGHIDE_ATTRIBUTES||
+
+  - CONFIRM 16||DISPLAY||v STONE_BUTTON 0||1||COCgoop mythicmobs runSkillAs weapon_upgrade_confirm
+    %player%||NME§x§9§9§C§C§0§0Confirm||CMD2||HFGHIDE_ATTRIBUTES||
   
   CommandOnOpen:
   - goop mythicmobs RunSkillAs weapon_upgrade_start %player%
